@@ -22,7 +22,7 @@ def create_csv(df):
     :param df: take pandas dataframe
     :return: format pandas dataframe to csv file and write it on disk
     """
-    df.to_csv("{}.csv".format(NAME))
+    df.to_csv("{}.csv".format(NAME), index=False)
     CSV_file = pd.read_csv("{}.csv".format(NAME))
     print(("{}.csv created".format(NAME)), "\n")
     return CSV_file
@@ -40,7 +40,7 @@ def csv_to_parquet_to_csv(csv):
     PARQUET_file = pd.read_parquet("{}.parquet".format(NAME), engine="pyarrow")
     print("{}.csv convert to {}.parquet completed".format(NAME, NAME))
     print("{}.parquet created".format(NAME), "\n")
-    PARQUET_file.to_csv("{}_1.csv".format(NAME))
+    PARQUET_file.to_csv("{}_1.csv".format(NAME), index=False)
     print("{}.parquet convert to {}_1.csv completed".format(NAME, NAME))
     print("{}_1.csv  created".format(NAME), "\n")
     return PARQUET_file
