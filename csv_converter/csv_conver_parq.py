@@ -1,6 +1,6 @@
 import pandas as pd
 
-NAME = "test"
+NAME = input("Print name for a file:",)
 DF = pd.DataFrame(
     {"col_1": [True, False, False, True, True],
      "col_2": [i for i in range(5)],
