@@ -1,6 +1,6 @@
 import pandas as pd
 
-NAME = input("Print name for a file:",)
+NAME = input("Print name for a file:", )
 DF = pd.DataFrame(
     {"col_1": [True, False, False, True, True],
      "col_2": [i for i in range(5)],
@@ -16,21 +16,24 @@ DF = pd.DataFrame(
 )
 
 
-def create_csv(df):
+def create_csv(df, debug=0):
     """
 
+    :param debug: debug flag
     :param df: take pandas dataframe
     :return: format pandas dataframe to csv file and write it on disk
     """
     df.to_csv("{}.csv".format(NAME), index=False)
     CSV_file = pd.read_csv("{}.csv".format(NAME))
-    print(("{}.csv created".format(NAME)), "\n")
+    if debug == 1:
+        print(("{}.csv created".format(NAME)), "\n")
     return CSV_file
 
 
-def csv_to_parquet_to_csv(csv):
+def csv_to_parquet_to_csv(csv, debug=0):
     """
 
+    :param debug: debug flag
     :param csv: csv file
     :return: format csv to parquet and backward,
     write 2 files with parquet and csv extension
@@ -38,23 +41,31 @@ def csv_to_parquet_to_csv(csv):
     csv.to_parquet("{}.parquet".format(NAME), compression=None,
                    engine="pyarrow")
     PARQUET_file = pd.read_parquet("{}.parquet".format(NAME), engine="pyarrow")
-    print("{}.csv convert to {}.parquet completed".format(NAME, NAME))
-    print("{}.parquet created".format(NAME), "\n")
+    if debug == 1:
+        print("{}.csv convert to {}.parquet completed".format(NAME, NAME))
+        print("{}.parquet created".format(NAME), "\n")
     PARQUET_file.to_csv("{}_1.csv".format(NAME), index=False)
-    print("{}.parquet convert to {}_1.csv completed".format(NAME, NAME))
-    print("{}_1.csv  created".format(NAME), "\n")
+    if debug == 1:
+        print("{}.parquet convert to {}_1.csv completed".format(NAME, NAME))
+        print("{}_1.csv  created".format(NAME), "\n")
     return PARQUET_file
 
 
-def parquet_scheme(parquet):
+def parquet_scheme(parquet, debug=0):
     """
 
+    :param debug: debug flag
     :param parquet: parquet file
     :return: scheme of parquet file
     """
-    print("{}.parquet scheme".format(NAME), "\n")
-    parquet.info(memory_usage="deep")
-    print("\n\n")
+    if debug == 1:
+        print("{}.parquet scheme".format(NAME), "\n")
+    return parquet.info(memory_usage="deep")
 
 
-parquet_scheme(csv_to_parquet_to_csv(create_csv(DF)))
+def main():
+    parquet_scheme(csv_to_parquet_to_csv(create_csv(DF)))
+
+
+if __name__ == "__main__":
+    main()
