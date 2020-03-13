@@ -54,7 +54,20 @@ def normalize():
     df["year"] = year_col
     format_genres = df["genres"].str.split("|")
     df["genres"] = format_genres
+    df = df.drop(columns="movieId")
     return df
+
+
+def mapping(df):
+    """
+
+    :param df: dataframe
+    :return: tuple(genre, [title, year])
+    """
+    for i in df.index:
+        for j in df["genres"][i]:
+            map_row = (j, [df["title"][i], df["year"][i]])
+            print(map_row)
 
 
 def search(word, genres, year_from, year_to, df):
@@ -65,10 +78,10 @@ def search(word, genres, year_from, year_to, df):
     :param year_from: year_from flag
     :param year_to: year_to flag
     :param df: dataframe
-    :return: stdout filter dataframe
+    :return: tuples(genre, title, year)
     """
     if genres is None and word is None:
-        df.to_csv(sys.stdout, index=False)
+        mapping(df)
     elif genres is None:
         word_df = df.loc[
             df["title"].str.contains(word, regex=False)
@@ -76,7 +89,7 @@ def search(word, genres, year_from, year_to, df):
         word_year_df = word_df.loc[
             (word_df["year"] > year_from) & (word_df["year"] < year_to)
             ]
-        word_year_df.to_csv(sys.stdout, index=False)
+        mapping(word_year_df)
     elif word is None:
         genres_df = df.loc[
             df["genres"].str.contains(genres, regex=False)
@@ -84,7 +97,7 @@ def search(word, genres, year_from, year_to, df):
         genres_year_df = genres_df.loc[
             (genres_df["year"] > year_from) & (genres_df["year"] < year_to)
             ]
-        genres_year_df.to_csv(sys.stdout, index=False)
+        mapping(genres_year_df)
     else:
         word_df = df.loc[
             df["title"].str.contains(word, regex=False)
@@ -95,7 +108,7 @@ def search(word, genres, year_from, year_to, df):
         word_genres_year_df = genres_df.loc[
             (genres_df["year"] > year_from) & (genres_df["year"] < year_to)
             ]
-        word_genres_year_df.to_csv(sys.stdout, index=False)
+        mapping(word_genres_year_df)
 
 
 def main():

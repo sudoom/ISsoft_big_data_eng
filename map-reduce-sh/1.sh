@@ -10,8 +10,9 @@ tar_path=${dir_path}/tar
 tmp_path=${dir_path}/tmp/datalake
 file_path=${dir_path}/ml-latest.zip
 cd ${dir_path}
+
 for var in $(ls ${tar_path}/`ls ${tar_path}`); do
-case ${var} in
+  case ${var} in
     "${links}.csv")
       mkdir ${tmp_path}/${links}
       cp ${tar_path}/`ls ${tar_path}`/${var} ${tmp_path}/${links}
@@ -30,7 +31,7 @@ case ${var} in
       ;;
     *)
       continue
-esac
+  esac
 done
 
 rm -R tar

@@ -3,9 +3,10 @@
 movies="`pwd`/data/tmp/datalake/movies/movies.csv"
 
 
-
-
-function gettr {
+#######################################
+# Download dataset and unzip.
+#######################################
+function download {
     current_path=`pwd`
     mkdir data
     dir_path=${current_path}/data
@@ -21,10 +22,17 @@ function gettr {
 }
 
 while [[ -n "$1" ]]; do
-case "$1" in
-    -getfiles) gettr;;
-esac
-shift
+  case "$1" in
+    -getfiles)
+    download
+    ./1.sh && cat ${movies} | python mapper.py | sort | python reducer.py
+    ;;
+    *)
+    echo "use flag -getfiles to download files"
+    exit
+    ;;
+  esac
+  shift
 done
-echo "`pwd`"
-./1.sh && cat ${movies} | python mapper.py | sort | python reducer.py
+
+cat ${movies} | python mapper.py -regexp bomb | sort | python reducer.py
