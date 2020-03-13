@@ -29,7 +29,6 @@ def create_tmp_dict(genres_list):
         value_tmp_dict = {"genre": f"{i}", "movies": []}
         tmp_dict[cnt] = value_tmp_dict
         cnt += 1
-
     return tmp_dict
 
 
@@ -57,7 +56,6 @@ def main():
     :return: main func
     """
     genre_list, tuple_list = create_lists()
-
     tmp_dict = create_tmp_dict(genre_list)
     create_main_dict(tmp_dict, tuple_list)
 
