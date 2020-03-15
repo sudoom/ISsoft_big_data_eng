@@ -63,8 +63,8 @@ def normalize():
             year.append(None)
     for i in tmp_genres:
         genres.append(i.strip().split("|"))
-    main = list(zip(title, year, genres))
-    return main
+    ds = list(zip(title, year, genres))
+    return ds
 
 
 def mapping(ds):
