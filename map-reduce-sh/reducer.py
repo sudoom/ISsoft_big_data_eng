@@ -1,6 +1,4 @@
 import sys
-from numpy import nan
-import math
 
 
 def create_lists():
@@ -9,11 +7,19 @@ def create_lists():
     :return: list with genres, list with title and year
     """
     genres_list = []
+    tmp_list = []
     tuple_list = []
     for line in sys.stdin:
-        res = eval(line)
-        genres_list.append(res[0])
-        tuple_list.append(res)
+        line = line.strip().split("\t")
+        genres_list.append(line[0])
+        tmp_list.append(line[1])
+    for i in tmp_list:
+        i = i.strip("()").split(",")
+        tmp = []
+        for j in i:
+            j = j.strip(" '")
+            tmp.append(j)
+        tuple_list.append(tmp)
     return genres_list, tuple_list
 
 
@@ -26,7 +32,7 @@ def create_tmp_dict(genres_list):
     tmp_dict = {}
     cnt = 1
     for i in set(genres_list):
-        value_tmp_dict = {"genre": f"{i}", "movies": []}
+        value_tmp_dict = {"genre": "{}".format(i), "movies": []}
         tmp_dict[cnt] = value_tmp_dict
         cnt += 1
     return tmp_dict
@@ -44,9 +50,8 @@ def create_main_dict(tmp_dict, tuple_list):
             for k in tuple_list:
                 if k[0] == j[1]:
                     i[1]["movies"].append(
-                        {"title": f"{k[1][0]}",
-                         "year": int(k[1][1]) if not math.isnan(
-                             k[1][1]) else None})
+                        {"title": "{}".format(k[1]),
+                         "year": int(k[2]) if k[2] != 'None' else None})
         print(i[1])
 
 
