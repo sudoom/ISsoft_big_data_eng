@@ -71,11 +71,11 @@ def mapping(ds):
     """
 
     :param ds: dataset
-    :return: genre, [title, year]
+    :return: genre, (genre, title, year)
     """
     for i in ds:
         for j in i[2]:
-            yield j, (i[0], i[1])
+            yield j, (j, i[0], i[1])
 
 
 def genres_helper(ds, genres):
