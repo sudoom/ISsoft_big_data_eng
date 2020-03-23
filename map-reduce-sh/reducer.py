@@ -13,12 +13,12 @@ def create_lists():
         line = line.strip().split("\t")
         genres_list.append(line[0])
         tmp_list.append(line[1])
-    for i in tmp_list:
-        i = i.strip("()").split(",")
+    for element in tmp_list:
+        element = element.strip("()").split(",")
         tmp = []
-        for j in i:
-            j = j.strip(" '")
-            tmp.append(j)
+        for char in element:
+            char = char.strip(" '")
+            tmp.append(char)
         tuple_list.append(tmp)
     return genres_list, tuple_list
 
@@ -31,8 +31,8 @@ def create_tmp_dict(genres_list):
     """
     tmp_dict = {}
     cnt = 1
-    for i in set(genres_list):
-        value_tmp_dict = {"genre": "{}".format(i), "movies": []}
+    for genre in set(genres_list):
+        value_tmp_dict = {"genre": "{}".format(genre), "movies": []}
         tmp_dict[cnt] = value_tmp_dict
         cnt += 1
     return tmp_dict
@@ -45,14 +45,14 @@ def create_main_dict(tmp_dict, tuple_list):
     :param tuple_list: list with title and year
     :return: main dictionary
     """
-    for i in tmp_dict.items():
-        for j in i[1].items():
-            for k in tuple_list:
-                if k[0] == j[1]:
-                    i[1]["movies"].append(
-                        {"title": "{}".format(k[1]),
-                         "year": int(k[2]) if k[2] != 'None' else None})
-        print(i[1])
+    for items in tmp_dict.items():
+        for genre in items[1].items():
+            for element in tuple_list:
+                if element[0] == genre[1]:
+                    items[1]["movies"].append(
+                        {"title": "{}".format(element[1]),
+                         "year": int(element[2]) if element[2] != 'None' else None})
+        print(items[1])
 
 
 def main():
