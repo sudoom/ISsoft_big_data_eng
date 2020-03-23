@@ -47,22 +47,22 @@ def normalize():
         line = line.split(",")
         tmp.append(line[1])
         tmp_genres.append(line[2])
-    for i in tmp:
-        if i.rfind("(") == -1:
-            title.append(i)
+    for element in tmp:
+        if element.rfind("(") == -1:
+            title.append(element)
         else:
-            title.append(i[:i.rfind("(")])
-        if i.rfind("(") == -1 and i.rfind(")") == -1:
-            tmp_year.append(i)
+            title.append(element[:element.rfind("(")])
+        if element.rfind("(") == -1 and element.rfind(")") == -1:
+            tmp_year.append(element)
         else:
-            tmp_year.append(i[i.rfind("(") + 1:i.rfind(")")])
-    for i in tmp_year:
+            tmp_year.append(element[element.rfind("(") + 1:element.rfind(")")])
+    for year_str in tmp_year:
         try:
-            year.append(int(i))
+            year.append(int(year_str))
         except ValueError:
             year.append(None)
-    for i in tmp_genres:
-        genres.append(i.strip().split("|"))
+    for genre in tmp_genres:
+        genres.append(genre.strip().split("|"))
     ds = list(zip(title, year, genres))
     return ds
 
@@ -73,9 +73,9 @@ def mapping(ds):
     :param ds: dataset
     :return: genre, (genre, title, year)
     """
-    for i in ds:
-        for j in i[2]:
-            yield j, (j, i[0], i[1])
+    for line in ds:
+        for genre in line[2]:
+            yield genre, (genre, line[0], line[1])
 
 
 def genres_helper(ds, genres):
@@ -86,10 +86,10 @@ def genres_helper(ds, genres):
     :return: ds with apply genres
     """
     genre_ds = []
-    for i in ds:
-        for j in i[2]:
-            if j == genres:
-                genre_ds.append(i)
+    for line in ds:
+        for genre in line[2]:
+            if genre == genres:
+                genre_ds.append(line)
     return genre_ds
 
 
@@ -101,9 +101,9 @@ def word_helper(ds, word):
     :return: dataset with apply word
     """
     word_ds = []
-    for i in ds:
-        if i[0].find(word) != -1:
-            word_ds.append(i)
+    for line in ds:
+        if line[0].find(word) != -1:
+            word_ds.append(line)
     return word_ds
 
 
@@ -116,10 +116,10 @@ def time_helper(ds, year_from, year_to):
     :return: dataset with apply years
     """
     time_ds = []
-    for i in ds:
+    for line in ds:
         try:
-            if year_from <= i[1] <= year_to:
-                time_ds.append(i)
+            if year_from <= line[1] <= year_to:
+                time_ds.append(line)
         except TypeError:
             continue
     return time_ds
