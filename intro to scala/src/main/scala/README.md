@@ -1,1 +1,0 @@
-[Course from Stepik](https://stepik.org/course/16243)
