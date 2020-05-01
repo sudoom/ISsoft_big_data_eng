@@ -115,7 +115,8 @@ def to_csv():
                     "$push": {
                         "avg_rating": "$avg_rating",
                         "title": "$title",
-                        "year": "$year"}}
+                        "year": "$year"}
+                }
             }
         },
         {
